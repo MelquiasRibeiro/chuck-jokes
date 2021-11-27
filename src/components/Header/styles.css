@@ -1,0 +1,12 @@
+.nav_menu {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+.nav_menu h1 {
+    margin: 0 2rem;
+}
+.logo{
+    height: 70px;
+    width: auto;
+}
