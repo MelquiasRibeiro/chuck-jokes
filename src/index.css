@@ -7,3 +7,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+div.footer {
+  position: fixed;
+  bottom: 0;
+}

@@ -1,12 +1,26 @@
 import {useState, useEffect} from "react"
-import Logo from "../../assets/logo.jpg"
+import Logo from "../../assets/logo-invertida.png"
 import './styles.css';
 import {Link,useNavigate} from 'react-router-dom'
-import {Image,Container ,Grid,GridItem,FormControl,FormLabel,Select } from '@chakra-ui/react'
+import {
+  Image,
+  FormControl,
+  FormLabel,
+  Select,
+  Box,
+  Stack,
+  Flex,
+  useDisclosure } from '@chakra-ui/react'
+import { HamburgerIcon } from "@chakra-ui/icons";
+
 import api from "../../services/api"
 
-function Header() {
+function Header(props) {
   const [categories, setCategories] = useState([])
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleToggle = () => (isOpen ? onClose() : onOpen());
 
   const navigate =useNavigate()
 
@@ -25,17 +39,46 @@ function Header() {
 
   return (
   <nav >
-    <Container maxW="container-xl">
-      <Grid  templateColumns="repeat(5, 1fr)" gap={4}>
-        <GridItem colStart="1"colEnd="3">
+    <Flex
+      as="nav"
+      align="center"
+      justify="space-between"
+      wrap="wrap"
+      padding={6}
+      bg="#ad0404"
+      color="white"
+      {...props}
+    >
+      <Flex align="center" mr={5}>
           <Link to="/">
             <Image className="logo" src={Logo} alt="logo"/>
           </Link>
-        </GridItem>
-        <GridItem colStart="4">
-          <FormControl>
-            <FormLabel>Selecione uma categoria</FormLabel>
+      </Flex>
+
+      <Box display={{ base: "block", md: "none" }} onClick={handleToggle}>
+        <HamburgerIcon />
+      </Box>
+
+      <Stack
+        direction={{ base: "column", md: "row" }}
+        display={{ base: isOpen ? "block" : "none", md: "flex" }}
+        width={{ base: "full", md: "auto" }}
+        alignItems="center"
+        flexGrow={1}
+        mt={{ base: 4, md: 0 }}
+      >
+      </Stack>
+
+      <Box
+        display={{ base: isOpen ? "block" : "none", md: "block" }}
+        mt={{ base: 4, md: 0 }}
+      >
+         <FormControl>
+            <FormLabel>Select a category</FormLabel>
             <Select onChange={handleCategory}>
+                      <option value={"category"} disabled >
+                        ramdom
+                      </option>
               {  categories.map(category=>
                       <option value={category} key={category}>
                         {category}
@@ -43,9 +86,8 @@ function Header() {
                 )} 
             </Select>
           </FormControl>
-        </GridItem>
-      </Grid>
-    </Container>
+      </Box>
+    </Flex>
   </nav>);
 }
 
